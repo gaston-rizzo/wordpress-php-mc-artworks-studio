@@ -1,0 +1,193 @@
+
+# BEGIN All In One WP Security
+#AIOWPS_BASIC_HTACCESS_RULES_START
+<Files .htaccess>
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order deny,allow
+Deny from all
+</IfModule>
+</Files>
+ServerSignature Off
+LimitRequestBody 104857600
+<Files wp-config.php>
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order deny,allow
+Deny from all
+</IfModule>
+</Files>
+#AIOWPS_BASIC_HTACCESS_RULES_END
+#AIOWPS_PREVENT_IMAGE_HOTLINKS_START
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_FILENAME} \.(gif|jpe?g?|png)$ [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://mcartworksstudio\.com [NC]
+RewriteRule \.(gif|jpe?g?|png)$ - [F,NC,L]
+</IfModule>
+#AIOWPS_PREVENT_IMAGE_HOTLINKS_END
+# END All In One WP Security
+
+# ======================================================================
+# 🔒 .HTACCESS OPTIMIZADO - MCARTWORKSSTUDIO.COM (2025)
+# ======================================================================
+
+# ======================================================================
+# 🔄 REGLAS PERSONALIZADAS
+# ======================================================================
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# --- Excepción: permitir logo en correos ---
+RewriteCond %{REQUEST_URI} ^/wp-content/uploads/images/logo\.png$ [NC]
+RewriteRule \.(gif|jpe?g?|png)$ - [L]
+
+# ======================================================================
+# 🚫 BLOQUEO DE HOTLINKING (Imágenes + Videos HLS/MP4)
+# ======================================================================
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_FILENAME} \.(gif|jpe?g?|png|mp4|m3u8|ts)$ [NC]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?mcartworksstudio\.com [NC]
+RewriteRule \.(gif|jpe?g?|png|mp4|m3u8|ts)$ - [F,NC,L]
+
+# ======================================================================
+# 🤖 BLOQUEO DE USER-AGENTS SOSPECHOSOS
+# ======================================================================
+RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+RewriteCond %{HTTP_USER_AGENT} ^-?$ [OR]
+RewriteCond %{HTTP_USER_AGENT} (?:MJ12bot|AhrefsBot|SemrushBot|DotBot|Baiduspider|crawler|spider|scrapy|python|curl|wget|HTTrack|Screaming Frog|Go-http-client|axios|node-fetch|PostmanRuntime|HeadlessChrome|PhantomJS|Java|libwww-perl|okhttp|feedparser|aiohttp|nmap|masscan|sqlmap|wpscan|acunetix|nikto) [NC]
+RewriteRule .* - [F,L,END]
+
+# ======================================================================
+# 💣 BLOQUEO DE EXPLOITS CONOCIDOS (2025)
+# ======================================================================
+# Revslider config leak
+RewriteCond %{QUERY_STRING} (^|&)action=revslider_show_image(&|$) [NC]
+RewriteRule .* - [F,L]
+
+# Blue.php payloads
+RewriteCond %{QUERY_STRING} (^|&)wall= [NC]
+RewriteRule .* - [F,L]
+
+# PHP en /wp-admin/css/
+RewriteCond %{REQUEST_URI} ^/wp-admin/css/.*\.php$ [NC]
+RewriteRule .* - [F,L]
+
+# ======================================================================
+# 🧱 BLOQUEO DE ACCESO FUERZA BRUTA A WP-LOGIN
+# ======================================================================
+RewriteCond %{REQUEST_URI} ^(.*)?wp-login\.php(.*)$ [NC]
+RewriteCond %{HTTP_COOKIE} !wordpress_logged_in_ [NC]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?mcartworksstudio\.com [NC]
+RewriteRule .* - [F,L]
+
+# ======================================================================
+# 🚫 BLOQUEO DE MÉTODOS HTTP NO USADOS POR WORDPRESS
+# ======================================================================
+RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]
+RewriteRule .* - [F,L]
+
+# ======================================================================
+# 🚫 BLOQUEO DE ARCHIVOS MALICIOSOS COMUNES
+# ======================================================================
+RewriteCond %{REQUEST_URI} /(tiny|wso|cmd|shell|r57|c99|uploader|filesman|backdoor|b374k|adminer)\.php [NC]
+RewriteRule .* - [F,L]
+
+# ======================================================================
+# ⚙️ REDIRECCIONES PERSONALIZADAS
+# ======================================================================
+# /sounds/nombre → /wp-content/uploads/sounds/nombre.mp3
+RewriteRule ^sounds/([a-zA-Z0-9-_]+)/?$ wp-content/uploads/sounds/$1.mp3 [L,NC]
+
+# /songs/nombre → /wp-content/uploads/songs/nombre.mp3
+RewriteRule ^songs/([a-zA-Z0-9-_]+)/?$ wp-content/uploads/songs/$1.mp3 [L,NC]
+
+# /images/nombre.ext → /wp-content/uploads/images/nombre.ext
+RewriteRule ^images/(.+\.(webp|png|jpg|jpeg))$ /wp-content/uploads/images/$1 [L,NC]
+
+# Videos GDI
+RewriteRule ^videos/gdi-intro/(.*)$ /wp-content/uploads/videos/GDI-INTRO/$1 [L,NC]
+RewriteRule ^videos/gdi-intro-firefox/(.*)$ /wp-content/uploads/videos/GDI-INTRO-FIREFOX/$1 [L,NC]
+RewriteRule ^videos/gdi-selection/(.*)$ /wp-content/uploads/videos/GDI-SELECTION/$1 [L,NC]
+RewriteRule ^videos/gdi-menu/(.*)$ /wp-content/uploads/videos/GDI-MENU/$1 [L,NC]
+RewriteRule ^videos/gdi-home/(.*)$ /wp-content/uploads/videos/GDI-HOME/$1 [L,NC]
+RewriteRule ^videos/gdi-gallery/(.*)$ /wp-content/uploads/videos/GDI-GALLERY/$1 [L,NC]
+
+# Videos NOD
+RewriteRule ^videos/nod-intro/(.*)$ /wp-content/uploads/videos/NOD-INTRO/$1 [L,NC]
+RewriteRule ^videos/nod-intro-firefox/(.*)$ /wp-content/uploads/videos/NOD-INTRO-FIREFOX/$1 [L,NC]
+RewriteRule ^videos/nod-selection/(.*)$ /wp-content/uploads/videos/NOD-SELECTION/$1 [L,NC]
+RewriteRule ^videos/nod-menu/(.*)$ /wp-content/uploads/videos/NOD-MENU/$1 [L,NC]
+RewriteRule ^videos/nod-home/(.*)$ /wp-content/uploads/videos/NOD-HOME/$1 [L,NC]
+RewriteRule ^videos/nod-gallery/(.*)$ /wp-content/uploads/videos/NOD-GALLERY/$1 [L,NC]
+
+</IfModule>
+# ======================================================================
+
+# ======================================================================
+# ⚙️ PROTECCIÓN DE XMLRPC (NO ROMPE WOOCOMMERCE)
+# ======================================================================
+<Files "xmlrpc.php">
+<IfModule mod_rewrite.c>
+# Bloquear pingback y multicall
+RewriteCond %{QUERY_STRING} ^.*(system\.multicall|pingback\.ping).*$ [NC]
+RewriteRule .* - [F,L]
+</IfModule>
+</Files>
+
+# ======================================================================
+# 🎬 CONFIG HLS / MP4
+# ======================================================================
+AddType application/vnd.apple.mpegurl .m3u8
+AddType video/mp2t .ts
+
+<FilesMatch "\.(m3u8|ts)$">
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, OPTIONS"
+Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Range"
+Header set Access-Control-Expose-Headers "Content-Length, Content-Range, Accept-Ranges"
+Header set Accept-Ranges "bytes"
+</FilesMatch>
+
+# ======================================================================
+# 🧩 WordPress Core
+# ======================================================================
+# BEGIN WordPress
+# Las directivas (líneas) entre «BEGIN WordPress» y «END WordPress» son
+# generadas dinámicamente y solo deberían ser modificadas mediante filtros de WordPress.
+# Cualquier cambio en las directivas que hay entre esos marcadores serán sobrescritas.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
+
+# ======================================================================
+# 🧱 LiteSpeed + AIOWP Security Firewall
+# ======================================================================
+# BEGIN LSCACHE
+# END LSCACHE
+# BEGIN NON_LSCACHE
+# END NON_LSCACHE
+
+# Begin AIOWPSEC Firewall
+<IfModule LiteSpeed>
+php_value auto_prepend_file '/home/u679645666/domains/mcartworksstudio.com/public_html/aios-bootstrap.php'
+</IfModule>
+<IfModule lsapi_module>
+php_value auto_prepend_file '/home/u679645666/domains/mcartworksstudio.com/public_html/aios-bootstrap.php'
+</IfModule>
+# End AIOWPSEC Firewall

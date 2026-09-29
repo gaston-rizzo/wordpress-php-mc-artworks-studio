@@ -1,0 +1,2526 @@
+/* ===============================================================================
+		MENU
+/* =============================================================================== */
+
+/* ===== Botón tipo menú ===== */
+.zaj-menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  backdrop-filter: saturate(140%) blur(2px);
+}
+
+.zaj-menu__icon { width: 22px; height: 22px; position: relative; }
+
+.zaj-menu__bar, .zaj-menu__bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #fff;
+  transition: transform .3s var(--overlay-ease), opacity .3s var(--overlay-ease);
+}
+.zaj-menu__bar { top: 7px; }
+.zaj-menu__bar::after { top: 8px; }
+
+.zaj-menu.is-open .zaj-menu__bar { transform: rotate(45deg) translateY(4px); }
+.zaj-menu.is-open .zaj-menu__bar::after { transform: rotate(-90deg); }
+
+.zaj-menu__label { font-weight: 600; letter-spacing:.02em; }
+.zaj-menu__label--close { display: none; }
+.zaj-menu.is-open .zaj-menu__label--open { display: none; }
+.zaj-menu.is-open .zaj-menu__label--close { display: inline; }
+
+/* ===== Overlay centrado ===== */
+.zaj-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: #0b0b0b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--overlay-dur) var(--overlay-ease);
+}
+.zaj-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== Contenedor de tarjetas ===== */
+.zaj-track {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  max-width: 90vw;
+}
+
+/* Tarjeta estilo “phone” centrada */
+.zaj-card {
+  flex: 1 1 400px;       /* flex-grow:1 permite que se ensanche */
+  max-width: 560px;      /* ancho máximo opcional */
+  min-width: 300px;      /* ancho mínimo opcional */
+  height: clamp(420px, 60vh, 680px);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 28px;
+  background: #0f0f0f;
+  color: #e9e9e9;
+  text-align: center;
+  overflow: hidden;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Video dentro de la tarjeta */
+.zaj-card video,
+.zaj-card-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* cubre toda la tarjeta sin deformar */
+    border-radius: 28px;
+    display: block;
+    z-index: 0;
+}
+
+/* Contenido sobre el video */
+.zaj-card > *:not(video) {
+    position: relative;
+    z-index: 1;
+}
+
+/* Título dentro de la tarjeta */
+.zaj-card h3 {
+  font-size: clamp(18px, 2.2vw, 28px);
+  letter-spacing:.06em;
+  margin:0;
+}
+
+/* Número de tarjeta */
+.zaj-card .zaj-num {
+  position:absolute;
+  top:14px;
+  right:18px;
+  font-weight:700;
+  opacity:.65;
+}
+
+/* Animación rebote desde la derecha */
+@keyframes slideInRightBounce {
+  0%   { transform: translateX(100%); opacity: 0; }
+  60%  { transform: translateX(-10%) scale(1.05); opacity: 1; }
+  80%  { transform: translateX(5%) scale(0.95); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+.zaj-card.animate-in {
+  animation: slideInRightBounce var(--card-dur) var(--overlay-ease) forwards;
+}
+
+/* ===== Fondo degradado animado ===== */
+.zaj-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;	
+/* 1. ORIGINAL
+  background: linear-gradient(-45deg, #1e0f3f, #3a1c71, #ff6f61, #ff9068);
+	*/
+/* 2. Futurista frío (azules y púrpuras) */
+/*
+background: linear-gradient(-45deg, #1e0f3f, #3a1c71, #0f9b8e, #3a6073);
+	*/	
+/* 3. Ciberpunk (violeta, magenta y azul neón) */
+	/*
+background: linear-gradient(-45deg, #1e0f3f, #3a1c71, #ff00cc, #00ffff);	
+	*/		
+	/*
+	4. Aurora boreal (verde esmeralda, turquesa y violeta)
+	*/
+	/*
+background: linear-gradient(-45deg, #1e0f3f, #3a1c71, #00ff87, #60efff);
+	*/
+	/*
+5. Galaxia profunda (violeta oscuro, índigo, azul eléctrico)
+	*/
+	/*
+	background: linear-gradient(-45deg, #1e0f3f, #3a1c71, #1a2a6c, #00c6ff);
+	*/	
+	/* /* Galaxia Profunda
+   Degradado animado: violeta oscuro, índigo, rosa fucsia oscuro, rosa brillante/magenta */	
+background: linear-gradient(-45deg, #1e0f3f, #3a1c71, #9b0d8c, #d76dff);		
+  background-size: 400% 400%;
+	/*
+  animation: gradientBG 10s ease infinite;
+	*/
+	
+  animation: gradientBG 4s ease infinite; /* antes 10s, ahora 6s */	
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--overlay-dur) var(--overlay-ease);
+}
+.zaj-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== Contenedor de tarjetas ===== */
+.zaj-track {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  max-width: 90vw;
+}
+
+/* ===== Tarjeta con glassmorphism (manteniendo tus tamaños) ===== */
+.zaj-card {
+  position: relative;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  overflow: hidden;
+  text-align: center;
+  transform: perspective(1000px) translateY(50px) rotateX(10deg);
+  opacity: 0;
+  transition: transform .6s ease, opacity .6s ease, box-shadow .3s ease;
+}
+
+/* Animación entrada 3D */
+.zaj-card.animate-in {
+  opacity: 1;
+  transform: perspective(1000px) translateY(0) rotateX(0deg);
+}
+
+/* Efecto hover parallax */
+.zaj-card:hover {
+  transform: perspective(1000px) translateY(-10px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+/* Contenido sobre el video */
+.zaj-card > *:not(video) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Título dentro de la tarjeta */
+.zaj-card h3 {
+  font-size: clamp(18px, 2.2vw, 28px);
+  letter-spacing:.06em;
+  margin: 0;
+  color: #fff;
+}
+
+/* ===============================================================================
+		SHOP
+/* =============================================================================== */
+				
+/* ============================
+   VIDEO FIX: reserva + overlay
+   ============================ */
+
+        li.tiene-video .video-loop-link,
+        li.tiene-video .ct-media-container,
+        li.tiene-video figure {
+          display: block !important;
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+		/* Contenedor fijo para videos en el shop */
+		.video-loop-link {
+			display: block;
+			position: relative;
+			width: 100%;
+			aspect-ratio: 630 / 870; /* evita saltos de altura */
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			border-radius: 12px;
+			overflow: hidden;
+		}
+
+        /* Fallback para navegadores que NO soportan aspect-ratio */
+        @supports not (aspect-ratio: 1 / 1) {
+          .video-loop-link::before {
+            content: "" ;
+            display: block;
+            width: 100%;
+            padding-top: calc(870 / 630 * 100%);
+          }
+          /* en el fallback necesitamos que los hijos estén posicionados */
+          .video-loop-link > * {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        /* Video ajustado al contenedor sin huecos */
+        .video-loop-link video.video-loop {
+          display: block !important;
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover;
+          vertical-align: top !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          z-index: 50 !important;
+        }
+
+        /* Asegurarse que el figure no aparezca antes */
+        li.tiene-video figure { display: none !important; }
+			
+		/* Contenedor general con grid para sidebar fijo y contenido */
+        body.woocommerce-shop .ct-container[data-sidebar="left"] {
+          display: grid;
+          grid-template-columns: 320px 1fr; /* Sidebar 320px + contenido flexible */
+          gap: 20px;
+          padding: 20px;
+          background: linear-gradient(160deg, rgba(45,36,79,0.95) 0%, rgba(80,60,130,0.95) 60%, rgba(255,215,0,0.15) 100%);
+          backdrop-filter: blur(8px);
+          border-radius: 14px;
+          box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+        }
+
+        /* Sidebar sticky para que quede fija al hacer scroll */
+        body.woocommerce-shop .ct-container[data-sidebar="left"] > aside#sidebar .ct-sidebar {
+          position: sticky;
+          top: 130px; /* Se pega a 130px del top al hacer scroll */
+          max-height: calc(100vh - 140px); /* Máximo alto para evitar overflow */
+          overflow-y: auto; /* Scroll vertical interno si es necesario */
+          background: transparent;
+          border-right: 1px solid rgba(255,255,255,0.08);
+          padding: 20px 15px;
+          border-radius: 14px;
+          z-index: 9999; /* Por encima de otros elementos */
+          opacity: 1;
+        }
+
+        /* Estilos para cada producto */
+        body.woocommerce-shop ul.products li.product {
+          border-radius: 14px;
+          overflow: hidden;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        /* Efecto hover en productos */
+        body.woocommerce-shop ul.products li.product:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 20px rgba(255,215,0,0.25);
+        }
+
+        /* Estilos para títulos de widgets en sidebar */
+        body.woocommerce-shop .ct-container[data-sidebar="left"] .widget-title {
+          font-size: 1.1em;
+          font-weight: 700;
+          color: #FFD700;
+          text-shadow: 0 0 4px rgba(255,215,0,0.5);
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          padding-bottom: 6px;
+          margin-bottom: 12px;
+        }
+        /* Estilos para widgets */
+        body.woocommerce-shop .ct-container[data-sidebar="left"] .widget {
+          padding: 8px;
+          border-radius: 10px;
+          transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+        /* Efecto hover en widgets */
+        body.woocommerce-shop .ct-container[data-sidebar="left"] .widget:hover {
+          background: rgba(255,255,255,0.05);
+          box-shadow: 0 2px 10px rgba(255,215,0,0.2);
+        }
+        /* Color para checkboxes */
+        body.woocommerce-shop .ct-container[data-sidebar="left"] input[type="checkbox"] {
+          accent-color: #FFD700;
+        }
+
+        /* Scrollbar minimal para sidebar */
+        body.woocommerce-shop .ct-container[data-sidebar="left"] > aside#sidebar .ct-sidebar::-webkit-scrollbar {
+          width: 6px;
+        }
+        body.woocommerce-shop .ct-container[data-sidebar="left"] > aside#sidebar .ct-sidebar::-webkit-scrollbar-thumb {
+          background: rgba(255,215,0,0.4);
+          border-radius: 3px;
+        }
+
+        /* Responsive: en pantallas pequeñas se apila todo */
+        @media (max-width: 900px) {
+          body.woocommerce-shop .ct-container[data-sidebar="left"] {
+            display: block;
+            padding: 0;
+            background: transparent;
+            box-shadow: none;
+            border-radius: 0;
+          }
+          body.woocommerce-shop .ct-container[data-sidebar="left"] > aside#sidebar .ct-sidebar {
+            position: static;
+            max-height: none;
+            border-right: none;
+            padding: 0;
+            background: transparent;
+            opacity: 1;
+          }
+          /* Productos en 1 columna mínima en móvil */
+          ul.products {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          }
+        }
+
+        /* Título del producto pegado y con límite de líneas */
+        li.tiene-video .woocommerce-loop-product__title {
+          margin: 0 !important;
+          padding: 6px 0 0 0 !important;
+          font-size: 15px !important;
+          line-height: 1.2em !important;
+          font-weight: 600;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* máximo 2 líneas */
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        /* Imágenes internas sin aportar altura extra (NO afectará al overlay por la regla más específica anterior) */
+        .video-loop-link img,
+        .video-loop-link picture {
+          display: block !important;
+          width: 100% !important;
+          height: auto !important;
+        }
+
+        /* Ajuste del wrapper del video */
+        li.tiene-video .video-loop-wrapper {
+          margin-top: 0 !important;
+        }
+
+        /* Estilo general del producto */
+        li.tiene-video.product {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          border: 2px solid rgba(255, 255, 255, 0.12);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+/* Selector que apunta a cualquier elemento con la clase "video-loop-link" */
+.video-loop-link {
+    display: block !important;       /* Convierte el elemento en bloque para que ocupe todo el ancho disponible */
+    width: 100% !important;          /* El ancho será 100% del contenedor padre */
+    max-width: 100% !important;      /* Limita el ancho máximo para que no se pase del 100% */
+    height: auto !important;         /* La altura se ajusta automáticamente según el contenido */
+    margin: 0 !important;            /* Quita cualquier margen externo */
+}
+
+/* Selector que apunta a los elementos video y img que están dentro de cualquier elemento con clase "video-loop" */
+.video-loop video,
+.video-loop img {
+    width: 100% !important;          /* Hace que el video o la imagen ocupen el 100% del ancho de su contenedor */
+    height: auto !important;         /* La altura se ajusta proporcionalmente para mantener la relación de aspecto */
+    object-fit: cover !important;    /* Hace que el contenido cubra todo el contenedor, recortando partes si es necesario */
+}
+
+/* Título del producto pegado y con límite de líneas */
+li.tiene-video .woocommerce-loop-product__title {
+  margin: 0 !important;
+  padding: 6px 0 0 0 !important;
+  font-size: 15px !important;
+  line-height: 1.2em !important;
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* máximo 2 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Precio y spinner en posición fija */
+.video-loop-link .precio-video,
+.video-loop-link .video-spinner {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  z-index: 60 !important;
+  pointer-events: none !important;
+  font-size: 12px !important;
+}
+
+/* Imágenes internas sin aportar altura extra */
+.video-loop-link img,
+.video-loop-link picture {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Ajuste del wrapper del video */
+li.tiene-video .video-loop-wrapper {
+  margin-top: 0 !important;
+}
+
+/* Estilo general del producto */
+li.tiene-video.product {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover */
+li.tiene-video.product:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.15);
+}
+
+/* Fondo degradado dentro de #main sin afectar sidebar */
+#main.site-main {
+  position: relative; /* necesario para ::before */
+  overflow: visible;  /* no cortar nada */
+}
+
+/* Asegura que el main sea relativo para ::before */
+#main.site-main {
+  position: relative;
+}
+
+/* Capa decorativa del fondo */
+#main.site-main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(58,0,102,0.7) 0%, rgba(106,63,160,0.7) 100%);
+  border-radius: 16px;
+  z-index: -1; /* debajo del contenido */
+}
+
+/* Mantener contenedores internos transparentes */
+#main.site-main > div,
+#main.site-main section,
+#main.site-main ul.products {
+  background: transparent !important;
+}
+
+/* Padding aplicado solo al listado de productos */
+ul.products {
+  padding: 20px;
+  border-radius: 16px; /* opcional */
+  background: linear-gradient(135deg, rgba(58,0,102,0.5) 0%, rgba(106,63,160,0.5) 100%);
+}
+
+/* Contenedor del video */
+ul.products li.tiene-video.product {
+  background: linear-gradient(135deg, #3a0066 0%, #6a3fa0 100%) !important; /* degradado violeta oscuro → violeta medio */
+  border: 2px solid #8a5fcf !important; /* borde violeta brillante que combina con el fondo */
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Fondo del contenedor de todos los productos */
+ul.products {
+  background: linear-gradient(135deg, #2a0052 0%, #3a0066 50%, #7a3fa0 100%) !important;
+  border-radius: 16px !important;
+	/*
+  padding: 20px !important;
+	*/
+}
+
+/* Hover Glow + Escala */
+ul.products li.tiene-video.product:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 0 12px rgba(255, 45, 149, 0.4),
+    0 0 24px rgba(255, 45, 149, 0.3),
+    0 0 48px rgba(106, 63, 160, 0.25);
+  border-color: #ff2d95;
+  transition: all 0.4s ease;
+}
+
+/* Contenedor preparado para el overlay */
+ul.products li.tiene-video.product {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay diagonal */
+ul.products li.tiene-video.product::after {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 45, 149, 0.35) 45%,
+    rgba(255, 255, 255, 0.2) 50%, /* brillo central blanco rosado */
+    rgba(255, 45, 149, 0.35) 55%,
+    transparent 100%
+  );
+  filter: blur(12px); /* destello suave */
+  transform: rotate(25deg) translateX(-120%);
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Al hacer hover, el destello cruza en diagonal */
+ul.products li.tiene-video.product:hover::after {
+  transform: rotate(25deg) translateX(120%);
+}
+
+/* Titulo del video */
+ul.products li.tiene-video.product a.woocommerce-loop-product__link {
+    color: #ff2d95 !important; /* rosa vibrante */
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4); /* opcional para mejorar legibilidad */
+}
+
+/* Contenedor de título + categoría + botón */
+li.tiene-video .ct-woo-card-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px;
+  padding: 8px 10px;
+  flex-grow: 1;
+}
+
+/* Categoría y botón en fila */
+li.tiene-video .ct-woo-card-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-top: auto;
+  gap: 8px;
+}
+
+/* Categoría (color intacto) */
+li.tiene-video .categoria-junto-boton {
+  order: -1;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* Titulo */
+li.tiene-video .woocommerce-loop-product__title,
+li.tiene-video h2.woocommerce-loop-product__title a.woocommerce-LoopProduct-link {
+  color: #9a4dff !important; /* Violeta vibrante que resalta */
+  font-weight: 600 !important;
+  line-height: 1.2em !important;  
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Categoria */
+li.tiene-video .categoria-junto-boton {
+  color: #ff2d95 !important;
+  background-color: rgba(255, 45, 149, 0.1);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 12px !important;
+}
+
+/* Botón "Add to Cart" con degradado morado → rosa */
+.add_to_cart_button {
+  background: linear-gradient(135deg, #6a0dad 0%, #ff2d95 100%) !important; /* morado oscuro → rosa vibrante */
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;	
+}
+
+/* 
+   Este bloque CSS se aplica tanto al botón "Add to cart" 
+   como al botón "View cart" dentro de las tarjetas de producto. 
+   El objetivo es que ambos ocupen el mismo espacio y así 
+   evitar que el layout "salte" o se desacomode 
+   cuando WooCommerce cambia un botón por el otro.
+*/
+.ct-woo-card-actions a.add_to_cart_button,
+.ct-woo-card-actions a.added_to_cart {
+    display: inline-block;      /* Se asegura de que los botones se comporten como cajas en línea con dimensiones personalizables */
+    min-width: 120px;           /* Fija un ancho mínimo común para ambos botones → mantiene la tarjeta estable sin movimientos bruscos */
+    text-align: center;         /* Centra el texto dentro del botón para que siempre se vea alineado */
+}
+
+.ct-woo-card-actions a.added_to_cart.wc-forward:hover {
+  background: var(--wp--preset--color--primary-hover, #4b1da3);
+  color: #fff;
+}
+
+/* Hover */
+.add_to_cart_button:hover {
+  background: linear-gradient(135deg, #9f00ff 0%, #ff4fb0 100%) !important; /* degradado más intenso al pasar el mouse */
+ box-shadow: 0 3px 8px rgba(255, 63, 172, 0.5), 0 0 6px rgba(159, 0, 255, 0.4);
+}
+
+/* Botón "View Cart" armonizado con contenedor de video */
+/* Botón "View Cart" armonizado con contenedor de video */
+/* Botón "View Cart" armonizado con contenedor de video, final un poco más oscuro */
+.added_to_cart {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  line-height: normal !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+
+  /* Inicio igual al contenedor, final un violeta más oscuro */
+  background: linear-gradient(135deg, #3a0066 0%, #5a2d91 100%) !important; 
+  border-radius: 12px !important;  
+  box-sizing: border-box;
+  transition: all 0.25s ease-in-out;
+}
+
+/* Hover */
+.added_to_cart:hover {
+  background: linear-gradient(135deg, #5c1aa0 0%, #8a5fcf 100%) !important; /* resalta al pasar mouse */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(168, 85, 247, 0.6), 0 0 6px rgba(138, 95, 207, 0.4); /* brillo suave */
+}
+
+/* Botón sin margen extra */
+li.tiene-video .button {
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+/* espacio fijo entre título y categoria/boton */
+li.tiene-video .woocommerce-loop-product__title {
+  margin: 0 0 16px 0 !important; /* ajustar 16px a lo que quieras */
+  padding: 6px 0 0 0 !important;  /* conserva tu padding actual */
+}
+
+/* ============================
+ * categoria
+ * ============================ */
+
+/* Contenedor de acciones del producto (botones y categoría)
+   Organiza los elementos en línea, separados y centrados verticalmente */
+.ct-woo-card-actions {
+    display: flex !important; /* Usa Flexbox para distribución en fila */
+    justify-content: space-between; /* Separa elementos, uno a la izquierda y otro a la derecha */
+    align-items: center; /* Centra verticalmente todos los elementos */
+    gap: 10px; /* Espacio horizontal entre elementos */
+}
+
+/* Estilo del enlace de categoría que se muestra junto a los botones */
+.categoria-junto-boton {
+    white-space: nowrap; /* Evita que el texto haga salto de línea */		
+    font-size: 0.9em; /* Tamaño de letra un poco más pequeño que el normal */
+   /* color: #666; */ /* Color gris medio para el texto */
+    font-weight: 600; /* Fuente semi-negrita para destacar */
+	/* Color de la fuente */
+		color: #666;		
+    text-decoration: none; /* Sin subrayado por defecto */
+    margin-right: auto; /* Empuja los botones hacia la derecha, dejando esta categoría a la izquierda */
+	text-transform: uppercase; /* Convierte texto a mayúsculas */	
+	cursor: default; /* Mantiene el cursor normal (flecha) */
+}
+	
+/* ============================
+ * galeria
+ * ============================ */
+
+/* Reducir tamaño de letra del título del producto para que sea más pequeño y compacto */
+.woocommerce-loop-product__title a {
+    font-size: 14px; /* Ajusta el tamaño que quieras */
+    line-height: 1.2; /* Opcional, para controlar el espacio entre líneas */
+}
+
+/* Ocultar la categoría (lista con clase entry-meta) */
+li.tiene-video .entry-meta {
+    display: none !important;
+}
+
+/* Ocultar el precio fuera del video (el span.price que está después del título) */
+li.tiene-video > .price {
+    display: none !important;
+}
+
+/* Precio en esquina superior derecha sobre el video */
+.video-loop-link .precio-video {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);		/* Fondo solo detrás del texto */	   
+	color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 10;
+    line-height: 1;
+}
+
+/* Forzar tamaño del precio, venciendo reglas del tema */
+li.tiene-video.product .video-loop-link .price.precio-video,
+li.tiene-video.product .video-loop-link .precio-video .woocommerce-Price-amount,
+li.tiene-video.product .video-loop-link .precio-video bdi{
+  font-size: 15px !important;
+  line-height: 1.1 !important;
+}
+
+/* Contenedor para botones: usa flexbox para colocar los botones en línea y alinearlos a la derecha con espacio entre ellos */
+.ct-woo-card-actions {
+    display: flex !important;          /* Convierte el contenedor en un flexbox para controlar la disposición de sus elementos hijos */
+    justify-content: flex-end !important; /* Alinea todos los elementos hijos al final (lado derecho) del contenedor */
+    gap: 8px;                         /* Espacio horizontal de 8px entre cada elemento hijo (botones) — esto es opcional para mejorar la separación visual */
+}
+
+/* =============================
+/* no-products
+/* ============================= */
+
+/* Contenedor principal cuando no hay productos */
+.woocommerce-no-products-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh; /* Centrado vertical */
+	margin-top: 20px; /* Baja la caja */
+}
+
+/* Caja con imagen y mensaje */
+.no-products-box {
+    background: rgba(43, 26, 66, 0.85); /* Morado semitransparente */
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    max-width: 500px;
+}
+
+/* Imagen */
+.no-products-box img {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* Mensaje */
+.no-products-box p {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;	
+	  user-select: none;   /* evita que el texto sea seleccionable */
+    cursor: default;     /* cursor normal */
+}
+
+/* =============================
+/* scroll
+/* ============================= */
+
+/* Scrollbar global en Blocksy para webkit (Chrome, Safari, Edge) */
+/* Define el ancho general de la scrollbar */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 18px; /* ancho de la barra de desplazamiento */
+}
+
+/* Estilo del track (fondo por donde se mueve el thumb) */
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: #19103d; /* color de fondo del track */
+}
+
+/* Estilo del thumb (la parte que se mueve y que el usuario arrastra) */
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background-color: #6a0dad; /* color violeta del thumb */
+  border-radius: 10px;        /* bordes redondeados para un look suave */
+  border: 3px solid #19103d;  /* borde para separarlo del track */
+}
+
+/* Cambio de color al pasar el mouse sobre el thumb */
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #8e2de2; /* violeta más claro al hover */
+}
+
+/* Scrollbar para Firefox */
+/* scrollbar-width puede ser auto, thin o none */
+/* scrollbar-color: primer color para el thumb, segundo para el track */
+html {
+  scrollbar-width: auto; /* ancho automático (puedes cambiar a 'thin' para más delgado) */
+  scrollbar-color: #6a0dad #19103d; /* colores thumb y track en Firefox */
+}
+
+/* =============================
+ * sidebar husky
+ * ============================= */
+
+/*
+body.woocommerce-shop .ct-container[data-sidebar="left"] > aside#sidebar .ct-sidebar {
+          position: fixed; 		  
+          left: calc(var(--sidebar-left, 32px) - 20px);
+          top: 130px;
+          width: 320px;
+          min-height: calc(100vh - 140px);
+          overflow-y: auto;
+          padding: 20px 15px;
+          background: transparent;
+          border-right: 1px solid rgba(255,255,255,0.08);
+          z-index: 9999;
+          opacity: 0;
+          transition: left 0.25s ease-out, opacity 0.25s ease-out;
+        }
+*/
+
+/* barra del rango de precios */
+.irs--round .irs-bar {
+    background: linear-gradient(135deg, #7a3fa0 0%, #3a0066 100%) !important; /* barra de selección */
+}
+
+/* Handle del slider con degradado */
+.irs--round .irs-handle {
+    background: linear-gradient(135deg, #a070ff 0%, #6a3fa0 100%) !important; /* degradado violeta */
+    border: 2px solid #3a0066 !important; /* borde violeta oscuro */
+    box-shadow: 0 0 5px rgba(138, 95, 207, 0.5); /* ligero resplandor */
+}
+
+/* Inputs y sliders */
+.ct-sidebar input[type="search"],
+.ct-sidebar .woof_range_slider {
+  background: rgba(255, 255, 255, 0.05) !important; /* semitransparente para ver degradado */
+  color: #fff !important;
+  border: 1px solid #8a5fcf !important;
+  border-radius: 8px !important;
+}
+
+/* Labels */
+.ct-sidebar label,
+.ct-sidebar .woof_checkbox_label {
+  color: #fff !important;
+  font-weight: 500;
+}
+
+/* Botones */
+.ct-sidebar button {
+  background: linear-gradient(135deg, #6a3fa0 0%, #3a0066 100%) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.ct-sidebar button:hover {
+  background: linear-gradient(135deg, #7a4fc0 0%, #4a0075 100%) !important;
+}
+
+#sidebar .ct-sidebar {
+  left: auto !important;
+  opacity: 1 !important;
+}
+
+/* Sidebar siempre estable */
+@media (min-width: 1024px) {
+  .ct-container {
+    max-width: 1600px !important;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+		/* Si se descomenta el sidebar deja de moverse con el scroll */
+		/*
+    align-items: start; */ /* clave para que no “salte” */
+  }
+}
+
+  /* Contenido principal debe ir en segunda columna */
+  .ct-container > section {
+    /* nada extra, ocupa segunda columna del grid */
+    overflow: visible; /* evita que videos se corten por overflow */
+  }
+}
+
+/* Widgets internos */
+#sidebar .widget {
+	 /*background: rgba(0,0,0,0.4); */
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+/* Para que el input no quede tapado por el botón lupa */
+.woof_husky_txt-input {
+    padding-right: 30px !important;
+}
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   	loading de cada producto en el shop 
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+.video-container {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #000;
+    }
+
+.video-fallback {
+	  position: absolute;
+	  inset: 0;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  z-index: 9999;
+	  background: #000;            		
+	  background: linear-gradient(135deg, #7b2ff7, #f107a3); 		
+	  transition: opacity 0.5s ease; /* Fade-out suave */
+	  opacity: 1;
+	}
+
+.video-fallback.hidden {
+  		opacity: 0;
+  		pointer-events: none; /* Permite interactuar con el video */
+	}
+
+.video-loader.gdi {
+      background: linear-gradient(135deg,#7b2ff7,#f107a3);
+    }
+
+.loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+.loader-text {
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+.spinner {
+      width: 32px;
+      height: 32px;
+      border: 4px solid #fff;
+      border-top: 4px solid transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+.video-loop {
+      display: block;
+      width: 100%;
+      height: auto;
+      position: relative;
+      z-index: 1;
+      background: #000;
+    }
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+/* Contenedor principal de cada video en el loop de la tienda */
+.video-loop-wrapper {
+    position: relative; /* Permite posicionar elementos absolutos dentro, como el placeholder */
+    display: block;     /* Se comporta como un bloque ocupando todo el ancho disponible */
+    border-radius: 12px; /* Esquinas redondeadas del contenedor */
+    overflow: hidden;   /* Evita que el contenido (video o placeholder) se salga de los bordes redondeados */
+}
+
+/* Placeholder que se muestra antes de que el video cargue */
+.video-placeholder {
+    position: absolute; /* Se posiciona encima del video dentro del contenedor */
+    inset: 0;           /* Ocupa todo el contenedor (.video-loop-wrapper) */
+    z-index: 2;         /* Aparece por encima del video para cubrirlo hasta que cargue */
+}
+
+/* Estilo del elemento video dentro del contenedor */
+.video-loop-wrapper video {
+    display: block; /* Evita espacio extra debajo del video (problema típico de elementos inline-block) */
+    width: 100%;    /* Ocupa todo el ancho del contenedor */
+    height: 100%;   /* Ocupa toda la altura del contenedor */
+}
+
+/* ==== Quitar/estilizar overlay blanco de BlockUI en el side cart de Xootix ==== */
+
+/* Overlay (la lámina blanca) */
+#xoo-wsc-modal .blockUI.blockOverlay,
+.xoo-wsc-container .blockUI.blockOverlay,
+.xoo-wsc-cart .blockUI.blockOverlay,
+.xoo-wsc-body .blockUI.blockOverlay,
+body .blockUI.blockOverlay {
+  /* elegí: transparente (sin flash) */
+  background: transparent !important;
+  /* o, si preferís tu degradado, reemplazá la línea de arriba por esta:
+  background: linear-gradient(135deg, rgba(30,15,63,.65), rgba(58,28,113,.65), rgba(155,13,140,.65), rgba(215,109,255,.65)) !important;
+  backdrop-filter: blur(10px) !important;
+  */
+  opacity: 1 !important;
+}
+
+/* Caja de “mensaje” que a veces aparece centrada (también sale blanca) */
+#xoo-wsc-modal .blockUI.blockMsg,
+.xoo-wsc-container .blockUI.blockMsg,
+.xoo-wsc-cart .blockUI.blockMsg,
+body .blockUI.blockMsg {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+/* Checkbox base (sin marcar) */
+.icheckbox_square-blue {
+    background: linear-gradient(135deg, #3a0066, #6a3fa0); /* fondo violeta */
+    border: 2px solid #8a5fcf; /* borde violeta brillante */
+    border-radius: 6px;
+}
+
+/* Cuando está marcado */
+.icheckbox_square-blue.checked {
+    background: linear-gradient(135deg, #8a5fcf, #3a0066); /* degradado violeta marcado */
+    border-color: #ffb84c; /* borde acentuado */
+}
+
+/* Tick visible */
+.icheckbox_square-blue.checked:after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 6px;
+    height: 12px;
+    border: solid #ffb84c; /* color del tick */
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+
+/* Quitar transiciones del fondo y borde de iCheck: */
+.icheckbox_square-blue,
+.icheckbox_square-blue.checked {
+    transition: none !important;
+}
+
+/* Asegurarse de que todos los estados (hover, active, focus) tengan los mismos colores: */
+.icheckbox_square-blue:hover,
+.icheckbox_square-blue.active,
+.icheckbox_square-blue.focus {
+    background: linear-gradient(135deg, #3a0066, #6a3fa0) !important;
+    border-color: #8a5fcf !important;
+}
+
+/* Todos los estados (hover, focus, active) */
+.icheckbox_square-blue:hover,
+.icheckbox_square-blue:focus,
+.icheckbox_square-blue:active,
+.icheckbox_square-blue.checked:hover,
+.icheckbox_square-blue.checked:focus,
+.icheckbox_square-blue.checked:active {
+    background: linear-gradient(135deg, #3a0066, #6a3fa0) !important;
+    border-color: inherit !important; /* mantiene el borde correspondiente según si está checkeado o no */
+}
+
+/* ===== Variables para animaciones ===== */
+:root {
+  --overlay-ease: cubic-bezier(.22,.61,.36,1);
+  --overlay-dur: .55s;
+  --card-dur: 0.7s;
+  --stagger: 70ms;
+}
+
+/* ===============================================================================
+		BUNDLES
+/* =============================================================================== */
+
+/* Precio */
+.bundle-price .woocommerce-Price-amount {
+    color: #FFD700 !important; /* Amarillo */
+    font-weight: bold;
+    font-size: 1.5em;
+    background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Para eliminar el espacio que hay entre los bundles y el menu */
+.hero-section.is-width-constrained {
+    margin-top: -80px; /* Ajusta este valor para acercar más o menos la sección */
+}
+
+/* Para no mostrar el header */
+.hero-section .entry-header {
+    display: none;
+}
+
+/* Asegura que el grid dentro del main tenga exactamente 2 columnas en pantallas anchas */
+.mc-bundles-results .bundles-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* <-- EXACTAMENTE 2 columnas */
+        gap: 40px;
+        align-items: start;
+        width: 100%;
+        box-sizing: border-box;
+}
+
+/* En pantallas pequeñas usar 1 columna */
+@media (max-width: 980px) {
+        .mc-bundles-results .bundles-grid {
+            grid-template-columns: 1fr;
+        }
+}
+
+/* Contenedor base */
+.mc-bundles-results .bundles-grid .bundle-container {
+  position: relative; 
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3a0066 0%, #6a3fa0 100%) !important;
+  color: #fff;
+  border: 2px solid transparent;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  z-index: 0; /* contexto base */
+}
+
+/* Hover Glow + Escala + Elevación */
+.mc-bundles-results .bundles-grid .bundle-container:hover {
+  transform: translateY(-10px) scale(1.05); /* 👈 ahora sube un poco */
+  z-index: 5; /* se pone arriba de lo demás mientras flota */
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.45), /* sombra realista hacia abajo */
+    0 0 12px rgba(255, 45, 149, 0.4),
+    0 0 24px rgba(255, 45, 149, 0.3),
+    0 0 48px rgba(106, 63, 160, 0.25);
+  border-color: #ff2d95;
+}
+
+/* Overlay diagonal como fondo */
+.mc-bundles-results .bundles-grid .bundle-container::after {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 45, 149, 0.35) 45%,
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 45, 149, 0.35) 55%,
+    transparent 100%
+  );
+  filter: blur(12px);
+  transform: rotate(25deg) translateX(-120%);
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 0; /* 👈 se queda en el fondo */
+}
+
+/* Hover cruza en diagonal */
+.mc-bundles-results .bundles-grid .bundle-container:hover::after {
+  transform: rotate(25deg) translateX(120%);
+}
+
+/* Todo el contenido arriba del destello */
+.mc-bundles-results .bundles-grid .bundle-container > * {
+  position: relative;
+  z-index: 1; /* 👈 asegura que videos, h2 y botones estén arriba */
+}
+
+/* Asegura que el contenedor principal ocupe el 100% del ancho disponible */
+.mc-bundles-wrap {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    width: 100%; /* Hace que el contenedor ocupe todo el ancho disponible */
+    max-width: 90%; /* Evita cualquier restricción de ancho máximo */
+    box-sizing: border-box; /* Asegura que no se agregue padding extra */
+}
+
+/* Si el contenedor está dentro de un contenedor más grande que lo limita, puedes forzar el 100% de ancho también */
+.ct-container-full {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ====== CONTENEDOR DEL BUNDLE ====== */
+.bundle-container {
+    border: 2px solid rgba(156, 105, 226, 0.4) !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    background: linear-gradient(145deg, #221537, #1c1230) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.bundle-container:hover {
+    transform: translateY(-4px);
+    border-color: rgba(156, 105, 226, 0.8);
+    box-shadow: 0 10px 25px rgba(156, 105, 226, 0.25);
+}
+
+/* ====== TÍTULO DEL BUNDLE ====== */
+.mc-bundles-results h2 {
+    font-size: 1.4em;
+    font-weight: 700;
+    text-align: center;
+    color: #e0d5ff;
+    margin-bottom: 18px;
+    text-shadow: 0 0 6px rgba(156, 105, 226, 0.5);
+}
+
+/* ====== FILA DE PRODUCTOS ====== */
+.bundle-fila {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* ====== TARJETA DE PRODUCTO ====== */
+.bundle-fila > div {
+    flex: 0 0 calc(33.333% - 16px);
+    max-width: 220px;
+    background: linear-gradient(145deg, #2a1c45, #1e1434);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bundle-fila > div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(156, 105, 226, 0.4);
+}
+
+/* ====== VIDEO ====== */
+.bundle-fila video {
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* ====== BUNDLE FILA ====== */
+.bundle-fila h4 {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #e0d5ff;
+    text-align: center;
+    margin-top: 6px;
+}
+
+/* ====== PRECIO Y CATEGORÍA ====== */
+.bundle-price {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.bundle-category a {
+    color: #9c69e2 !important;
+    text-decoration: none;
+    font-size: 0.85em;
+}
+
+.bundle-category a:hover {
+    text-decoration: underline;
+}
+
+/* ====== BOTÓN CARRITO ====== */
+/*
+a.button.add_to_cart_button {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+    background: #9c69e2 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    padding: 6px 10px !important;
+    font-weight: 600 !important;
+    font-size: 0.85em;
+    transition: background 0.3s ease, box-shadow 0.3s ease !important;
+}
+*/
+/*
+a.button.add_to_cart_button:hover {
+    background: #7a4dc1 !important;
+    box-shadow: 0 4px 15px rgba(156, 105, 226, 0.4) !important;
+}
+*/
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+    .bundle-fila > div {
+        flex: 0 0 calc(50% - 16px);
+    }
+}
+
+@media (max-width: 480px) {
+    .bundle-fila > div {
+        flex: 0 0 100%;
+    }
+}
+
+/* ====== BARRA LATERAL ====== */
+
+/* Barra lateral con sticky */
+.mc-bundles-filter {
+    position: -webkit-sticky; /* Compatibilidad con Safari */
+    position: sticky;
+    top: 0;
+    background: #2d1f45; /* Fondo oscuro */
+    color: #fff;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    border: 2px solid #9c69e2; /* Borde alrededor del contenedor */
+    height: calc(100vh - 48px);
+    overflow-y: auto;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Reducido el espacio entre los elementos */
+	 overflow-x: hidden; /* Elimina el scroll horizontal */
+}
+
+/* Aseguramos que el contenido dentro de la barra lateral no exceda el ancho */
+.mc-bundles-filter * {
+    box-sizing: border-box; /* Evita que el padding cause desbordamiento */
+}
+
+/* Ajuste en los campos del formulario */
+.mc-bundles-filter div {
+    margin-bottom: 12px; /* Reducido margen entre secciones */
+}
+
+/* Ajustes en los labels */
+.mc-bundles-filter label {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-bottom: 6px; /* Reducido espacio debajo de los labels */
+}
+
+/* Recuadro de búsqueda */
+.mc-bundles-filter input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: #3a2a5d;
+    border: 2px solid #9c69e2;
+    color: #fff;
+    margin-bottom: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.mc-bundles-filter input[type="text"]:focus {
+    border-color: #7a4dc1; /* Resalta el borde al enfocar */
+}
+
+/* Recuadro de categorías */
+.mc-bundles-filter .mc-bundles-filter div {
+    padding: 10px;
+    border: 2px solid #9c69e2;
+    border-radius: 8px;
+    background: #3a2a5d;
+    margin-bottom: 12px;
+}
+
+.mc-bundles-filter input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Agrandar el checkbox */
+}
+
+/* Recuadro de filtro de precio */
+.mc-bundles-filter .price-slider-container {
+    background: #3a2a5d;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 2px solid #9c69e2;
+}
+
+/* Etiquetas de precio */
+.price-label {
+    font-weight: bold;
+    color: #fff;
+    font-size: 1em;
+}
+
+/* Botones de aplicar y limpiar filtros */
+.mc-bundles-filter button,
+.mc-bundles-filter a {
+    background: #9c69e2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    border: 2px solid #7a4dc1;
+}
+
+.mc-bundles-filter button:hover,
+.mc-bundles-filter a:hover {
+    background: #7a4dc1;
+    border-color: #9c69e2;
+}
+
+/* Contenedores WOOF armonizados y discretos */
+.woof_container_product_cat,
+.woof_price3_search_container,
+.woof_text_search_container,
+.woof_acf_checkbox_container {
+  background: linear-gradient(135deg, rgba(58,0,102,0.35) 0%, rgba(106,63,160,0.35) 100%) !important; /* más suave */
+  border: 2px solid rgba(138,95,207,0.25) !important; /* borde violeta muy tenue */
+  border-radius: 16px !important; /* coincide con border-radius del fondo */
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #fff !important; /* texto blanco */
+}
+
+/* Labels dentro del contenedor */
+.woof_container_product_cat label {
+  color: #fff !important;
+}
+
+/* Checkbox personalizados */
+.woof_container_product_cat .icheckbox_square-blue ins {
+  background: rgba(255, 255, 255, 0.05) !important; /* semi-transparente para ver el degradado */
+  border-radius: 4px;
+  border: 1px solid rgba(138,95,207,0.8) !important;
+}
+
+/* =============================
+/* sidecart Xootix
+/* ============================= */
+
+/* Fondo general del body del modal */
+.xoo-wsc-body {
+  background: linear-gradient(
+    135deg, 
+    rgba(106, 13, 173, 0.65), /* morado oscuro semitransparente */
+    rgba(212, 92, 162, 0.65)  /* rosa semitransparente */
+  ) !important;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.xoo-wsc-products {
+  background: transparent !important;
+}
+
+/* Contenedor principal del modal */
+.xoo-wsc-container {
+  background: linear-gradient(
+    135deg,
+    rgba(106, 13, 173, 0.6), /* morado más sutil */
+    rgba(212, 92, 162, 0.6)  /* rosa más sutil */
+  ) !important;
+  color: #fff !important;
+  border-left: 3px solid rgba(212, 92, 162, 0.8); /* borde rosado semitransparente */
+  box-shadow: -4px 0 25px rgba(212, 92, 162, 0.4); /* sombra rosada más ligera */
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 12px;
+}
+
+/* Encabezado del modal con degradado violeta → rosa */
+.xoo-wsc-header {
+  background: linear-gradient(135deg, #6a0dad 0%, #d45ca2 100%) !important; /* degradado morado → rosa */
+  border: 2px solid #d45ca2 !important; /* borde rosado brillante */
+  border-radius: 12px !important;
+  padding: 15px;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Productos: hover efecto de resalte */
+.xoo-wsc-product:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(108, 74, 182, 0.5);
+}
+
+/* Texto dentro de los items */
+.xoo-wsc-product a,
+.xoo-wsc-product span,
+.xoo-wsc-product p {
+  color: #fff !important;
+}
+
+/* Espaciado entre productos */
+.xoo-wsc-products .xoo-wsc-product {
+  margin-bottom: 10px;
+}
+
+/* Icono eliminar */
+.xoo-wsc-smr-del {
+  color: #fff !important;
+  transition: color 0.2s ease;
+}
+.xoo-wsc-smr-del:hover {
+  color: #ff6b6b !important;
+}
+
+/* Fondo y bordes de los items */
+.xoo-wsc-container .xoo-wsc-product,
+.xoo-wsc-container .xoo-wsc-smr,
+.xoo-wsc-container .xoo-wsc-sm-info {
+  background: linear-gradient(
+    135deg,
+    rgba(106,13,173,0.85) 0%,
+    rgba(212,92,162,0.75) 50%,
+    rgba(106,13,173,0.85) 100%
+  ) !important; /* degradado morado → rosa */
+  border: 2px solid #d45ca2 !important;
+  border-radius: 10px !important;
+  padding: 10px !important;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Fondo general del listado de productos */
+.xoo-wsc-container .xoo-wsc-products {
+  background-color: rgba(43, 26, 66, 0.98) !important;
+  padding: 1px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #a855f7 transparent;
+}
+
+/* Fondo y bordes de la info */
+.xoo-wsc-sm-info {
+  background-color: rgba(43, 26, 66, 0.98) !important;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+/* ===== FOOTER FIJO ABAJO ===== */
+.xoo-wsc-footer {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  background: rgba(43, 26, 66, 0.65) !important;
+  padding: 15px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.3);
+  z-index: 2;
+}
+
+/* Estilo general para todos los botones del footer */
+.xoo-wsc-footer .xoo-wsc-ft-btn,
+.xoo-wsc-footer .button {
+  display: block !important;
+  text-align: center !important;
+  padding: 12px 16px !important;
+  margin-bottom: 8px !important;
+  background: linear-gradient(135deg, rgba(106,13,173,0.95), rgba(212,92,162,0.95)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4) !important;
+  transition: all 0.25s ease !important;
+  text-decoration: none !important;
+}
+
+/* Hover elegante para todos los botones */
+.xoo-wsc-footer .xoo-wsc-ft-btn:hover,
+.xoo-wsc-footer .button:hover {
+  background: linear-gradient(135deg, rgba(212,92,162,1), rgba(106,13,173,1)) !important;
+  border-color: rgba(255,255,255,0.25) !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 8px rgba(212,92,162,0.2) !important;
+  transform: translateY(-1px);
+}
+
+/* Botones específicos: Checkout / View Cart / Continue */
+.xoo-wsc-footer .xoo-wsc-ft-btn-checkout,
+.xoo-wsc-footer .xoo-wsc-ft-btn-cart,
+.xoo-wsc-footer .xoo-wsc-ft-btn-continue {
+  background: linear-gradient(135deg, rgba(106,13,173,0.95), rgba(212,92,162,0.95)) !important;
+  border-color: rgba(212,92,162,0.6) !important;
+  box-shadow: 0 3px 8px rgba(212,92,162,0.6) !important;
+  font-weight: 600 !important;
+}
+
+.xoo-wsc-footer .xoo-wsc-ft-btn-checkout:hover,
+.xoo-wsc-footer .xoo-wsc-ft-btn-cart:hover,
+.xoo-wsc-footer .xoo-wsc-ft-btn-continue:hover {
+  background: linear-gradient(135deg, rgba(212,92,162,1), rgba(106,13,173,1)) !important;
+  border-color: rgba(212,92,162,0.8) !important;
+  box-shadow: 0 4px 12px rgba(212,92,162,0.8), 0 0 10px rgba(212,92,162,0.3) !important;
+  transform: translateY(-1px);
+}
+
+/* === FORZAR TRANSPARENCIA REAL === */
+.xoo-wsc-container .xoo-wsc-products,
+.xoo-wsc-products {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Ocultar subtotal y texto de shipping/taxes */
+.xoo-wsc-ft-totals,
+.xoo-wsc-footer-txt {
+  display: none !important;
+}
+
+/* Scroll estético y fino */
+.xoo-wsc-container .xoo-wsc-products {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #a855f7 transparent;
+}
+
+/* Chrome, Edge, Safari */
+.xoo-wsc-container .xoo-wsc-products::-webkit-scrollbar {
+  width: 6px;
+}
+.xoo-wsc-container .xoo-wsc-products::-webkit-scrollbar-track {
+  background: transparent;
+}
+.xoo-wsc-container .xoo-wsc-products::-webkit-scrollbar-thumb {
+  background-color: rgba(168, 85, 247, 0.6);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+.xoo-wsc-container .xoo-wsc-products::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(168, 85, 247, 0.85);
+}
+
+/* Botón del carrito flotante Xootix estilo neón */
+.xoo-wsc-basket {
+    background: linear-gradient(145deg, #FFEA00, #FF6F00); /* amarillo neón a naranja intenso */
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 
+        0 0 8px #FFEA00,
+        0 0 15px #FFEA00,
+        0 0 20px #FF6F00,
+        0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    padding: 14px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Efecto hover: más brillante y leve movimiento */
+.xoo-wsc-basket:hover {   
+    box-shadow: 
+        0 0 12px #FFEA00,
+        0 0 25px #FFEA00,
+        0 0 30px #FF6F00,
+        0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Estilo del botón flotante cuando el carrito está abierto */
+body.xoo-wsc-cart-active .xoo-wsc-basket {
+    border-color: #fff; /* mantener el borde blanco visible sobre el fondo */
+/* Sombra / glow intenso para resaltar el botón */
+    box-shadow: 
+        0 0 12px #FFEA00,   /* glow amarillo suave */
+        0 0 25px #FFEA00,   /* glow amarillo medio */
+        0 0 30px #FFB300,   /* glow naranja más intenso */
+        0 6px 20px rgba(0,0,0,0.3); /* sombra suave proyectada */
+    
+    transform: scale(1.03) rotate(1deg); /* leve aumento de tamaño y rotación para animación */
+    background: linear-gradient(145deg, #FFEA00, #FFB300); /* gradiente amarillo → naranja intenso */
+}
+
+/* =============================
+/* fancybox
+/* ============================= */
+
+/* Estilos para cuando el usuario pasa el cursor sobre el enlace de categoría */
+.categoria-junto-boton:hover {
+    /* text-decoration: underline; */ /* Subraya el texto para indicar que es un enlace */
+    /* color: #000; */ /* Cambia el color a negro para mayor contraste */
+}
+
+/* Cuando fancybox está abierto y el carrito visible forzar manito sobre el recuadro que rodea al icono */
+body.fancybox-lock .xoo-wsc-basket {
+  cursor: pointer !important;
+}
+
+/* Cuando fancybox está abierto y el carrito visible forzar manito sobre el icono */
+body.fancybox-lock .xoo-wsc-icon-basket1 {
+  cursor: pointer !important;
+}
+
+/* Forzar cursor pointer (manito) sobre el icono del carrito */
+.xoo-wsc-basket,
+xoo-wsc-bki {
+  cursor: pointer !important;
+}
+
+/* Contenedor principal de Fancybox con un z-index muy alto para estar encima de todo */
+.fancybox__container {
+  z-index: 1000000 !important;
+}
+
+/* Mientras Fancybox está activo: 
+   - Bloquea toda interacción con el fondo (pointer-events: none)
+   - Evita el scroll de la página (overflow: hidden) */
+body.fancybox-lock {
+    pointer-events: none !important;
+    overflow: hidden !important;
+}
+
+/* Permite interacción sólo dentro del contenedor Fancybox */
+body.fancybox-lock .fancybox__container {
+    pointer-events: auto !important;
+}
+
+/* Capa superpuesta oscura para oscurecer el fondo cuando Fancybox está activo:
+   - Ocupa toda la pantalla con posición fija
+   - Fondo semitransparente negro
+   - Z-index justo debajo del contenedor Fancybox
+   - Permite interacciones para bloquear clicks en el fondo
+   - Cursor normal (flecha) */
+body.fancybox-lock::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99999; /* justo debajo del Fancybox (z-index 2147483647) */
+    pointer-events: all;
+    cursor: default !important; /* fuerza el cursor */		
+}
+
+/* Cuando Fancybox está activo, posicionar body como relativo 
+   para que el pseudo-elemento ::before se pueda posicionar correctamente */
+body.fancybox-active {
+  position: relative; /* Necesario para que ::before se posicione respecto a body */
+}
+
+/* Pseudo-elemento ::before que crea una capa superpuesta oscura sobre toda la pantalla:
+   - Posición fija para cubrir toda la ventana
+   - Fondo negro semitransparente
+   - Z-index para situarse debajo de elementos como Fancybox pero encima del contenido
+   - pointer-events activados para bloquear interacciones con el fondo */
+body.fancybox-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 99998;
+  pointer-events: all;
+}
+
+/* Mientras Fancybox esté abierto y bloquee fondo, forzar cursor flecha normal en toda la página */
+body.fancybox-lock * {
+  cursor: default !important;
+}
+
+/* Pero en los botones de navegación y cerrar, mostrar cursor pointer (manito) para indicar clickeable */
+body.fancybox-lock button,
+body.fancybox-lock .custom-nav-prev,
+body.fancybox-lock .custom-nav-next,
+body.fancybox-lock [data-fancybox-close] {
+  cursor: pointer !important;
+}
+
+/* También asegurar que los íconos SVG dentro de esos botones tengan cursor pointer */
+body.fancybox-lock button svg,
+body.fancybox-lock .custom-nav-prev svg,
+body.fancybox-lock .custom-nav-next svg,
+body.fancybox-lock [data-fancybox-close] svg {
+  cursor: pointer !important;
+}
+
+/* ============================= */
+
+/* 
+ * Oculta la sección hero (título "Shop") en la página tienda WooCommerce 
+ * para evitar mostrar el encabezado por defecto que no queremos.
+ * Se aplica solo en el archive de productos (shop) gracias a la clase del body.
+ */
+body.post-type-archive-product .hero-section[data-type="type-2"] {
+    display: none !important;
+}
+
+/* Contenedor principal que agrupa  la galería y la barra lateral. */
+.ct-container {
+  max-width: 1400px; /* o el ancho que quieras */
+  margin: 0 auto;
+  display: flex;
+  gap: 20px; /* espacio entre sidebar y contenido */
+  box-sizing: border-box;
+}
+
+/* Sidebar fijo para filtros */
+.ct-sidebar {
+  flex: 0 0 320px; /* ancho fijo para sidebar */
+  max-width: 320px;
+  min-width: 320px;
+  box-sizing: border-box;
+}
+
+/* Contenido principal con galería */
+.ct-container > section {
+  flex: 1 1 auto;
+  max-width: none; 
+  box-sizing: border-box;
+}
+
+/* Galería con 4 columnas */
+ul.products.columns-4 {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important; /* 4 columnas */
+  gap: 20px;
+}
+
+ul.products.columns-4 > li {
+  width: 100% !important;
+}
+
+/* =============================
+/* filtro Husky
+/* ============================= */
+
+/* Ocultar título HUSKY Filter en shop */
+body.post-type-archive-product h3.widget-title {
+    display: none !important;
+}
+
+/* Contenedor principal */
+.woof_container {
+    background: rgba(41, 22, 61, 0.9); /* Morado oscuro semi-transparente */
+    padding: 18px;
+    border: 1px solid rgba(255, 215, 0, 0.25); /* Dorado suave */
+    border-radius: 14px;
+    color: #f0f0f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Efecto hover premium */
+.woof_container:hover {
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+/* Títulos de sección */
+.woof_title_label {
+    color: #ffd700; /* Dorado */
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* Checkboxes y etiquetas */
+.woof_list label {
+    display: block;
+    margin-bottom: 8px;
+    color: #e4e4e4;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.woof_list label:hover {
+    color: #ffd700;
+}
+
+/* Checkboxes */
+.woof_list input[type="checkbox"] {
+    accent-color: #ffd700;
+}
+
+/* Slider de precio */
+.woof_price_slider {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 6px;
+}
+
+/* Botón aplicar filtro */
+.woof_submit_search_form {
+    background: linear-gradient(135deg, #ffd700, #ffb347);
+    color: #3a1e58;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px 14px;
+    border: none;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.woof_submit_search_form:hover {
+    background: linear-gradient(135deg, #ffb347, #ffd700);
+    transform: scale(1.05);
+}
+
+/* Espaciado interno */
+.woof_container .woof_block_html_items {
+    margin-bottom: 18px;
+}
+
+/* ========================== */
+
+/* Fondo general */
+body {
+    background-color: #19103d !important;
+    color: #ffffff;
+}
+
+/* Texto base */
+body, p, li {
+    color: #c8c8d0;
+}
+
+/* Encabezados */
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+}
+
+/* Enlaces */
+a {
+    color: #8e44ad;
+    text-decoration: none;
+}
+a:hover {
+    color: #ff764d;
+}
+
+/* Botones primarios (WooCommerce, etc.) */
+button,
+.button,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit {
+    background-color: #d93b58;
+    color: #fff;
+    border: none;
+}
+button:hover,
+.button:hover,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #respond input#submit:hover {
+    background-color: #ff764d;
+}
+
+/* Bordes y detalles suaves */
+hr,
+input,
+textarea,
+select {
+    border-color: #2d244f;
+    background-color: #2d244f;
+    color: #fff;
+}
+
+/* Tarjetas de producto en la tienda */
+.woocommerce ul.products li.product,
+.woocommerce-page ul.products li.product {
+    background-color: #2d244f;
+    border: 1px solid #32285e;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.woocommerce ul.products li.product h2,
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+    color: #fff;
+}
+.woocommerce ul.products li.product .price {
+    color: #ffd700; /* dorado suave */
+}
+
+/* Para acomodar el video principal de la pagina de inicio */
+.hero-video-section {
+    position: relative;
+    overflow: hidden;
+    height: 100vh; /* O ajusta la altura como prefieras */
+}
+
+/* Para acomodar el video principal de la pagina de inicio */
+.hero-video-section video {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-1%);
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+/* Se mueve el video un poco hacia abajo visualmente, ajustando el punto de enfoque del video. */
+    object-position: 50% 30%; 	
+    z-index: -1;
+}
+
+/* Solo oculta la imagen si el producto tiene un video */
+.woocommerce ul.products li.product.tiene-video img {
+    display: none !important;
+}
+
+/* No se muestra una imagen vacia en la tarjeta del producto si el producto es un video */
+body.tiene-video .woocommerce-product-gallery {
+    display: none !important;
+}
+
+/* Estilo del contenedor del video de la sección home */
+.video-producto {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+/* Asegura que el video principal de la sección home ocupe toda la pantalla */
+.hero-video-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* CORRIGE esto: faltaba el estilo para el video de la sección home */
+.hero-video-section video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Texto centrado sobre el video */
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+	
+}
+
+/* Estilos de texto */
+.hero-content h1 {
+    font-size: 3rem;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+}
+
+.hero-content a.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #ffffffcc;
+    color: #000;
+    text-decoration: none;
+    border-radius: 30px; /* más redondeado */
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease; /* suaviza la animación */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* opcional: un poco de sombra */
+	/* el boton comienza invisible al cargar la pagina y luego se muestra */
+	    animation: fadeInUp 1.2s ease-out forwards;
+    opacity: 0; /* para que comience invisible */
+}
+
+.hero-content a.btn:hover {
+    background-color: #000;
+    color: #fff;
+    transform: scale(1.05); /* efecto sutil al hacer hover */
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Asegurar que el botón de cerrar aparezca */
+.fancybox__toolbar {
+  display: flex !important;
+}
+
+.fancybox__button--close {
+  display: block !important;
+  z-index: 9999;
+}
+
+/* Eliminar el fondo oscuro que aparece detras del video al abrirse
+ * la ventana modal de un .mp4 */
+.fancybox__container,
+.fancybox__backdrop,
+.fancybox__content,
+.fancybox__slide,
+.fancybox__viewport {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.fancybox__container {
+    backdrop-filter: none !important; /* si usa blur */
+}
+
+/* Quitar outlines en todos los niveles. Quita todas las líneas punteadas en Fancybox. Esto elimina cualquier outline o box-shadow generado por el foco visual en botones, contenedores o navegación de Fancybox.
+*/
+.fancybox__container,
+.fancybox__slide,
+.fancybox__content,
+.fancybox__backdrop,
+.fancybox__caption,
+.fancybox__toolbar,
+.fancybox__button,
+.fancybox__nav,
+.fancybox__nav .fancybox__button {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Evitar resaltado en elementos con foco */
+.fancybox__container *:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Contenedor general que centra el video dentro del modal */
+.fancybox-video-wrapper {
+  display: flex; /* Usamos flexbox para centrar contenido */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  height: 100%; /* Ocupa todo el alto disponible */
+  background: transparent; /* Fondo transparente para no tapar nada */
+  padding: 20px; /* Espacio interno para que no quede pegado a los bordes */
+}
+
+/* Contenedor del video y el botón cerrar */
+.fancybox-video-container {
+  position: relative; /* Para posicionar elementos absolutos dentro, como el botón cerrar */
+  background: black; /* Fondo negro alrededor del video */  
+  /* Padding: superior 12px, derecha 18px, inferior 20px, izquierda 12px 
+     para crear espacio interno y que el fondo negro sobresalga proporcionalmente */
+  padding: 12px 18px 20px 12px; 
+  border-radius: 8px; /* Bordes redondeados para suavizar el contenedor */
+  max-width: 98vw !important; /* El contenedor nunca será más ancho que el 98% del ancho de la ventana */
+  max-height: 90vh !important; /* El contenedor nunca será más alto que el 90% de la altura de la ventana */
+  box-sizing: border-box; /* Incluye padding y borde dentro del tamaño total */
+}
+
+/* Estilo para el elemento video dentro del contenedor */
+.fancybox-video-container video {
+  max-height: 85vh !important; /* El video no sobrepasa el 85% de la altura de la ventana */
+  width: 100%; /* El video ocupa todo el ancho disponible dentro del contenedor */
+  height: auto; /* Mantiene la proporción natural del video */
+  border-radius: 4px; /* Bordes ligeramente redondeados para el video */
+  display: block; /* Elimina espacio blanco debajo del video */
+  cursor: default; /* Cursor normal al pasar sobre el video */
+  margin-bottom: 0; /* Sin margen debajo */
+}
+
+/* Botón de cierre personalizado para Fancybox */
+.f-button.is-close {
+  position: absolute;           /* Posicionamiento absoluto respecto al contenedor */
+  top: -18px;                   /* Lo coloca sobresaliendo hacia arriba del recuadro */
+  right: -18px;                 /* Lo coloca sobresaliendo hacia la derecha del recuadro */
+  background: black;           /* Fondo negro, consistente con el contenedor */
+  border: none;                /* Sin borde por defecto */
+  border-radius: 50%;          /* Lo hace circular */
+  width: 36px;
+  height: 36px;
+  display: flex;               /* Flexbox para centrar el ícono (SVG) dentro del botón */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;             /* Cursor en forma de mano al pasar el mouse */
+  z-index: 1000;               /* Asegura que el botón quede por encima de todo */
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);  /* Sombra suave para darle profundidad */
+  transition: transform 0.25s ease,    /* Transición suave al hacer hover (escala) */
+              box-shadow 0.25s ease;   /* Transición suave para la sombra */
+}
+
+/* Hover del botón: agranda y agrega sombra */
+.f-button.is-close:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8); /* Añade brillo/sombra blanca alrededor */
+}
+
+/* Estilo del ícono SVG (la "X") */
+.f-button.is-close svg {
+  stroke: white;
+  stroke-width: 2;
+  transition: stroke 0.25s ease,
+              filter 0.25s ease,
+              stroke-width 0.25s ease;
+}
+
+/* Hover del SVG: brillo + trazo más grueso */
+.f-button.is-close:hover svg {
+  stroke: #ffffff;
+  stroke-width: 2.5; /* más grueso para destacar */
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)); /* efecto brillante fuerte */
+}
+
+/* Ocultar las flechas de navegación originales de Fancybox */
+.fancybox__nav {
+  display: none !important;
+}
+
+/* Estilos base para ambos botones de navegación personalizados */
+.custom-nav-prev,
+.custom-nav-next {
+  position: absolute;           /* Posición absoluta para poder ubicarlo respecto al contenedor */
+  top: 50%;                    /* Centrado vertical relativo al contenedor */
+  transform-origin: center center;  /* Punto de origen para transformaciones: centro del botón */
+  transform: translateY(-50%) scale(1);  /* Mover hacia arriba 50% para centrar verticalmente y tamaño normal */
+  transition: 
+    transform 0.3s ease,       /* Transición suave para escalado */
+    box-shadow 0.3s ease;      /* Transición suave para sombra al hacer hover */
+}
+
+/* Estilo específico para el botón de navegación izquierda */
+.custom-nav-prev {
+  left: -48px;                 /* Posición a la izquierda, fuera del contenedor (48px hacia afuera) */
+  transform-origin: left center; /* El escalado ocurre desde el borde izquierdo del botón */
+}
+
+/* Estilo específico para el botón de navegación derecha */
+.custom-nav-next {
+  right: -48px;                /* Posición a la derecha, fuera del contenedor (48px hacia afuera) */
+  transform-origin: right center; /* El escalado ocurre desde el borde derecho del botón */
+}
+
+/* Efecto al pasar el mouse por encima de cualquiera de los botones */
+.custom-nav-prev:hover,
+.custom-nav-next:hover {
+  transform: translateY(-50%) scale(1.05); /* Escala un 5% más grande sin mover verticalmente */
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8); /* Añade brillo/sombra blanca alrededor */
+  cursor: pointer;            /* Cambia el cursor para indicar que es clickeable */
+}
+
+/* Estilo para los videos FRAME y WORSHOP que aparecen en la galeria de videos */
+.galeria-videos-producto {
+  display: flex; /* activa flexbox en el contenedor */
+  gap: 0px; /* espacio entre los item */
+}
+
+/* Estilo para los videos FRAME y WORSHOP que aparecen en la galeria de videos */
+.galeria-videos-producto video {
+  width: 300px;
+  height: 370px;
+  /* object-fit: cover; */ /* Recorta las partes del contenido que sobresalgan para mantener las proporciones. */
+  /*border-radius: 8px; */ /* redondea las esquinas de un elemento */
+}
+
+/*
+Es un contenedor para el video principal en la página del producto. Hace que el video se adapte bien al espacio disponible sin deformarse.
+*/
+.video-producto-individual {
+  width: 100%; /* Ocupa todo el ancho disponible del contenedor padre */
+  max-width: 600px; /* Máximo ancho permitido para no crecer demasiado en pantallas grandes */
+  height: auto; /* La altura se ajusta automáticamente para mantener la proporción original del video */
+  position: relative; /* Permite usar posicionamiento absoluto dentro si es necesario */
+  overflow: hidden; /* Oculta cualquier contenido que se salga del contenedor */
+  border-radius: 12px; /* Bordes redondeados para un diseño más suave y moderno */
+	min-height: 870px; /* Establece una altura mínima para evitar que el contenido de abajo (como los productos relacionados) salte o se desplace al cambiar la altura del video. Esto garantiza que siempre haya espacio reservado, incluso si se carga un video más corto. */
+}
+
+/* Contenedor de productos relacionados */
+.related.products {
+/* Reduce el espacio arriba para que se suba más la sección */
+  margin-top: 0px; /* Elimina margen superior para acercar a la sección anterior */
+  /* o */
+  padding-top: 10px; /* Elimina padding superior para acercar aún más */
+}
+
+/* =============================
+/* custom-alert
+/* ============================= */
+
+/* Overlay oscuro semitransparente */
+#custom-alert-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;	
+    background-color: rgba(0, 0, 0, 0.5); /* Morado oscuro translúcido */
+    z-index: 999998;
+}
+
+/* Contenedor principal de la ventana de alerta semitransparente */
+#custom-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(
+        135deg, 
+        rgba(58, 0, 102, 0.85) 0%,   /* violeta oscuro semitransparente */
+        rgba(106, 63, 160, 0.85) 100% /* violeta medio semitransparente */
+    );
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 0 15px rgba(138, 95, 207, 0.3); /* sombra violeta tenue */
+    font-family: Arial, sans-serif;
+    z-index: 999999;
+    user-select: none;
+    color: #ff0000; /* texto rojo */
+}
+
+/* Cuando la alerta esté abierta, bloqueamos interacciones con el carrito Xootix */
+body.alert-open .xoo-wsc-basket,
+body.alert-open .xoo-wsc { 
+  pointer-events: none !important;
+  opacity: 0.6;
+}
+
+/* Anular transición de opacidad para el icono del carrito Xootix */
+.xoo-wsc-basket,
+.xoo-wsc {
+    transition: none !important;
+}
+
+/*
+desactivar el scroll de la página cuando el body tiene la clase alert-open */
+body.alert-open { overflow: hidden; } 
+
+/* Barra superior negra con botón cerrar */
+/* Barra superior morado oscuro con botón cerrar */
+#custom-alert-header {
+    background: black;
+    padding: 8px 12px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Botón cerrar rojo máximo */
+#custom-alert-close {
+    cursor: pointer;
+    font-weight: bold;
+    color: #FF0000; /* rojo máximo */
+    font-size: 18px;
+    border: none;
+    background: transparent;
+    line-height: 1;
+}
+
+#custom-alert-close:hover {
+    color: #FF3333; /* rojo intenso al pasar el mouse */
+}
+
+#custom-alert-close:hover {
+    color: #ffd27f; /* Amarillo más claro al pasar el mouse */
+}
+
+#custom-alert-content {
+    padding: 20px 30px;
+    color: #ff0000;
+    white-space: nowrap;
+    overflow: visible;  /* que no se oculte nada */
+    text-overflow: clip; /* sin puntos suspensivos */
+    text-align: center;
+    font-size: 16px;
+	
+}
+
+/* Botón cerrar adaptado al color rojo */
+#custom-alert-button {
+    margin: 10px auto 20px auto;
+    display: block;
+    background-color: #ff0000;	
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#custom-alert-button:hover {
+    background-color: #cc0000;
+}
+
+body.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
