@@ -4,6 +4,8 @@ MC Artworks Studio fue un sitio web real que estuvo en producción, desarrollado
 
 El proyecto utiliza una interfaz multimedia inspirada en la estética de un videojuego. Durante la primera visita, el usuario visualiza una introducción multimedia, selecciona una facción NOD o GDI y el sitio adapta su apariencia a esa elección.
 
+El sitio estuvo en producción durante aproximadamente un año. Una vez finalizada esa etapa, y con autorización de la propietaria del proyecto, el código se conservó en GitHub como parte de mi portfolio técnico.
+
 ## Tecnologías principales
 
 - WordPress

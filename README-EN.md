@@ -4,6 +4,8 @@ MC Artworks Studio was a real website that was live in production, developed wit
 
 The project uses a multimedia interface inspired by video game aesthetics. During the first visit, the user sees a multimedia introduction, selects either the NOD or GDI faction, and the site adapts its appearance to that choice.
 
+The site was live in production for approximately one year. Once that stage had ended, and with the project owner's permission, the code was preserved on GitHub as part of my technical portfolio.
+
 ## Main technologies
 
 - WordPress
