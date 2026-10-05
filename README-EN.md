@@ -1,6 +1,6 @@
 # MC Artworks Studio
 
-MC Artworks Studio is a website developed with WordPress and WooCommerce for selling digital artworks and offering image editing, artwork creation, and realistic photomontage services.
+MC Artworks Studio was a real website that was live in production, developed with WordPress and WooCommerce for selling digital artworks and offering image editing, artwork creation, and realistic photomontage services.
 
 The project uses a multimedia interface inspired by video game aesthetics. During the first visit, the user sees a multimedia introduction, selects either the NOD or GDI faction, and the site adapts its appearance to that choice.
 
